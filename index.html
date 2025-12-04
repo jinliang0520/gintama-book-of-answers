@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>万事屋银ちゃん - 烦恼咨询室</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@700;900&family=ZCOOL+KuaiLe&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gin-blue: #7CBCE8; /* 银时和服蓝 */
+            --gin-hair: #E6F3F9; /* 银发白 */
+            --wood-brown: #8B5A2B; /* 招牌棕 */
+            --elizabeth-white: #FFFFFF;
+            --elizabeth-yellow: #FFD700;
+            --title-black: #1a1a1a;
+        }
+
+        body {
+            font-family: 'ZCOOL KuaiLe', 'Noto Serif SC', serif; /* 快乐体比较俏皮，像手写 */
+            margin: 0;
+            padding: 20px;
+            /* 银时和服风格的波浪纹背景 */
+            background-color: var(--gin-blue);
+            background-image: 
+                radial-gradient(circle at 50% 0, rgba(255,255,255,0.2) 20px, transparent 21px),
+                radial-gradient(circle at 50% 100%, rgba(255,255,255,0.2) 20px, transparent 21px);
+            background-size: 60px 60px;
+            background-position: 0 0, 30px 30px;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* 万事屋招牌风格容器 */
+        .container {
+            background-color: #f4e4bc; /* 仿旧纸张/木头色 */
+            width: 100%;
+            max-width: 600px;
+            padding: 40px 30px;
+            border: 8px solid var(--wood-brown);
+            border-radius: 15px;
+            box-shadow: 
+                10px 10px 0px rgba(0,0,0,0.2),
+                inset 0 0 50px rgba(139, 90, 43, 0.2);
+            position: relative;
+            transform: rotate(-1deg); /* 稍微歪一点，体现慵懒 */
+            transition: transform 0.3s ease;
+        }
+
+        .container:hover {
+            transform: rotate(0deg) scale(1.01);
+        }
+
+        /* 顶部装饰：挂钩 */
+        .container::before {
+            content: '●';
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #333;
+            font-size: 40px;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
+
+        h1 {
+            text-align: center;
+            color: #000;
+            font-size: 3em;
+            margin-top: 0;
+            margin-bottom: 30px;
+            text-shadow: 3px 3px 0px #fff;
+            letter-spacing: 5px;
+            font-family: 'Noto Serif SC', serif;
+            border-bottom: 3px dashed var(--wood-brown);
+            padding-bottom: 20px;
+        }
+
+        /* 输入框区域 */
+        .input-section {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        h2 {
+            font-size: 1.2em;
+            color: var(--wood-brown);
+            margin-bottom: 10px;
+        }
+
+        textarea {
+            width: 100%;
+            box-sizing: border-box; /* 修复宽度溢出 */
+            padding: 15px;
+            border: 3px solid var(--gin-blue);
+            border-radius: 15px;
+            resize: vertical;
+            min-height: 100px;
+            font-size: 18px;
+            font-family: inherit;
+            background-color: #fff;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        textarea:focus {
+            box-shadow: 0 0 15px rgba(124, 188, 232, 0.5);
+            transform: scale(1.02);
+        }
+
+        /* 按钮：伊丽莎白风格 */
+        button {
+            background-color: var(--elizabeth-white);
+            color: #333;
+            border: 3px solid #333;
+            padding: 12px 30px;
+            border-radius: 50px; /* 圆润 */
+            cursor: pointer;
+            font-size: 20px;
+            font-weight: bold;
+            font-family: 'ZCOOL KuaiLe', sans-serif;
+            margin-top: 15px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 5px 5px 0px rgba(0,0,0,0.8);
+            transition: all 0.1s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* 按钮点击动画 */
+        button:active {
+            transform: translate(2px, 2px);
+            box-shadow: 3px 3px 0px rgba(0,0,0,0.8);
+        }
+
+        button:hover {
+            background-color: #f0f0f0;
+        }
+
+        /* 按钮上的装饰（伊丽莎白图片） */
+        button::after {
+            content: '';
+            display: block;
+            width: 20px;
+            height: 20px;
+            background-image: url('yilishabai.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            border-radius: 50%;
+            border: 2px solid #333;
+        }
+
+        /* 结果区域：默认状态 */
+        .result-section {
+            margin-top: 30px;
+            padding: 5px; /* 为了显示边框 */
+        }
+
+        /* 银魂标题卡样式 - 这是核心！ */
+        .gintama-title-card {
+            background-color: #000;
+            color: #fff;
+            padding: 30px 20px;
+            font-family: 'Noto Serif SC', serif;
+            border: 6px double #fff;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            /* 竖排文字尝试，如果不喜欢可以删掉 writing-mode */
+            /* writing-mode: vertical-rl; */ 
+            /* text-orientation: upright; */
+            min-height: 150px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .gintama-title-card .subtitle {
+            font-size: 0.9em;
+            color: #ccc;
+            margin-bottom: 15px;
+            font-family: sans-serif;
+            letter-spacing: 2px;
+            border-bottom: 1px solid #555;
+            padding-bottom: 5px;
+            width: 100%;
+        }
+
+        .gintama-title-card .main-text {
+            font-size: 2em; /* 字大一点 */
+            font-weight: 900;
+            line-height: 1.4;
+        }
+
+        /* 默认占位符样式 */
+        #result.placeholder {
+            color: #888;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        /* 动画定义 */
+        @keyframes popIn {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes shake {
+            0% { transform: translate(1px, 1px) rotate(0deg); }
+            10% { transform: translate(-1px, -2px) rotate(-1deg); }
+            20% { transform: translate(-3px, 0px) rotate(1deg); }
+            30% { transform: translate(3px, 2px) rotate(0deg); }
+            40% { transform: translate(1px, -1px) rotate(1deg); }
+            50% { transform: translate(-1px, 2px) rotate(-1deg); }
+            60% { transform: translate(-3px, 1px) rotate(0deg); }
+            70% { transform: translate(3px, 1px) rotate(-1deg); }
+            80% { transform: translate(-1px, -1px) rotate(1deg); }
+            90% { transform: translate(1px, 2px) rotate(0deg); }
+            100% { transform: translate(1px, -2px) rotate(-1deg); }
+        }
+
+        /* 页脚彩蛋 */
+        .footer-note {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 12px;
+            color: #666;
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>万事屋银ちゃん</h1>
+        
+        <div class="input-section">
+            <h2>委托内容 </h2>
+            <textarea id="question" placeholder="喂，这里是万事屋。先把委托费准备好再说..."></textarea>
+            <button id="askBtn">交给万事屋！</button>
+        </div>
+        
+        <div class="result-section">
+            <div id="result" class="placeholder">
+                <span style="font-size: 30px;">😪</span><br>
+                Zzz... 糖分不足...
+            </div>
+        </div>
+
+        <div class="footer-note">
+            © 歌舞伎町一番街万事屋 · 严禁拖欠工资
+        </div>
+    </div>
+    
+    <script src="app.js"></script>
+</body>
+</html>
